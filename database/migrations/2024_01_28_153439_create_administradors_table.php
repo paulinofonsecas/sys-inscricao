@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('administradors', function (Blueprint $table) {
             $table->id();
             $table->string("bi");
-            $table->string("nascimento");
+            $table->dateTime("nascimento");
             $table->string("telefone");
             $table->string("endereco");
-            $table->string("tipo_usuario_id")->foreignId("id")->constrained("tipo_usuarios");
-            $table->string("status_id")->foreignId("id")->constrained("statuses");
+            $table->foreignId("tipo_usuario_id")->constrained('tipo_usuarios');
+            $table->foreignId("status_id")->constrained("statuses");
             $table->foreignId("user_id")->constrained("users");
             $table->rememberToken();
             $table->timestamps();

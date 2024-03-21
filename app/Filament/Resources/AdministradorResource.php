@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AdministradorResource\Pages;
-use App\Filament\Resources\AdministradorResource\RelationManagers;
 use App\Models\Administrador;
+use App\Models\TipoUsuario;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AdministradorResource extends Resource
 {
@@ -23,28 +21,37 @@ class AdministradorResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\TextInput::make('usuario.nome')
                     ->required()
-                    ->numeric(),
+                    ->autocomplete(false)
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('usuario.email')
+                    ->required()
+                    ->email()
+                    ->maxLength(50),
+                Forms\Components\TextInput::make('usuario.password')
+                    ->required()
+                    ->password()
+                    ->autocomplete()
+                    ->maxLength(64),
                 Forms\Components\TextInput::make('bi')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('nascimento')
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(14),
+                Forms\Components\DatePicker::make('nascimento')
+                    ->date('dd-mm-YYYY')
+                    ->maxDate(now())
+                    ->minDate('01-01-1900')
+                    ->hint('Formato: 04-23-1998')
+                    ->required(),
                 Forms\Components\TextInput::make('telefone')
                     ->tel()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(9),
                 Forms\Components\TextInput::make('endereco')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tipo_usuario_id')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status_id')
-                    ->required()
-                    ->maxLength(255),
+
             ]);
     }
 
