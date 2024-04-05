@@ -9,4 +9,6 @@ class FinalizarInscricao extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.candidato.pages.finalizar-inscricao';
+
+    protected static ?string $navigationGroup = 'Concluir Inscrição';
 }

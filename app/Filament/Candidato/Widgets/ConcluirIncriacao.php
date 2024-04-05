@@ -20,7 +20,7 @@ class ConcluirIncriacao extends Widget
 
     public function concluirInscricao() {
         // go to CandidatoFinalizacao, via url
-        return redirect()->route('filament.candidato.finalizacao');
+        return redirect()->route('filament.candidato.pages.finalizar-inscricao');
     }
 
 }
