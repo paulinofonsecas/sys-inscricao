@@ -4,7 +4,6 @@ namespace App\Filament\Candidato\Pages;
 
 use App\Filament\Candidato\Widgets\ConcluirIncriacao;
 use Filament\Pages\Page;
-use Filament\Widgets\FilamentInfoWidget;
 
 class CandidatoDashboard extends Page
 {
