@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Candidato\Pages\CandidatoDashboard;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -31,10 +32,11 @@ class CandidatoPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->navigation(false)
             ->discoverResources(in: app_path('Filament/Candidato/Resources'), for: 'App\\Filament\\Candidato\\Resources')
             ->discoverPages(in: app_path('Filament/Candidato/Pages'), for: 'App\\Filament\\Candidato\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                CandidatoDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Candidato/Widgets'), for: 'App\\Filament\\Candidato\\Widgets')
             ->widgets([
