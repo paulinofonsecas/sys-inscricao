@@ -16,10 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'super@admin.com',
-        ]);
 
         $this->call([
             StatusSeeder::class,
@@ -30,5 +26,11 @@ class DatabaseSeeder extends Seeder
             EstadoCandidaturaSeeder::class,
             GeneroSeeder::class,
         ]);
+        
+        \App\Models\User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'super@admin.com',
+        ]);
+
     }
 }

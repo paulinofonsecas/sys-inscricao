@@ -2,7 +2,6 @@
 
 namespace App\Filament\Candidato\Widgets;
 
-use Filament\Notifications\Notification;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Auth;
 

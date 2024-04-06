@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Candidato\Pages\CandidatoDashboard;
+use App\Filament\Pages\Login\CustomLoginPage;
+use App\Http\Middleware\CandidatoLoginCheck;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,8 +29,10 @@ class CandidatoPanelProvider extends PanelProvider
         return $panel
             ->id('candidato')
             ->path('candidato')
-            ->login()
+            ->login(CustomLoginPage::class)
             ->registration(Register::class)
+            ->passwordReset()
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -56,6 +60,7 @@ class CandidatoPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                CandidatoLoginCheck::class,
             ]);
     }
 }

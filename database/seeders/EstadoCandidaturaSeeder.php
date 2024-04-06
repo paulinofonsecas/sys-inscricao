@@ -19,12 +19,7 @@ class EstadoCandidaturaSeeder extends Seeder
             'Recusado',
             'Lista de espera',
             'Desistido',
-            'Aguarda documentação',
-            'Aprovado em 1ª fase',
-            'Aprovado em 2ª fase',
-            'Não compareceu à entrevista',
             'Inválido',
-            'Pendente de pagamento',
             'Em processo de matrícula',
         ];
 

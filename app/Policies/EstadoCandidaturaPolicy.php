@@ -13,7 +13,7 @@ class EstadoCandidaturaPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class EstadoCandidaturaPolicy
      */
     public function view(User $user, EstadoCandidatura $estadoCandidatura): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class EstadoCandidaturaPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class EstadoCandidaturaPolicy
      */
     public function update(User $user, EstadoCandidatura $estadoCandidatura): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class EstadoCandidaturaPolicy
      */
     public function delete(User $user, EstadoCandidatura $estadoCandidatura): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class EstadoCandidaturaPolicy
      */
     public function restore(User $user, EstadoCandidatura $estadoCandidatura): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class EstadoCandidaturaPolicy
      */
     public function forceDelete(User $user, EstadoCandidatura $estadoCandidatura): bool
     {
-        //
+        return true;
     }
 }

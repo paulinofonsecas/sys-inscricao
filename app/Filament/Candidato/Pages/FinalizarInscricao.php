@@ -18,6 +18,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Auth;
 
 class FinalizarInscricao extends Page implements HasForms
     {
@@ -120,6 +121,7 @@ class FinalizarInscricao extends Page implements HasForms
         $dados = $this->form->getState();
 
         $candidato = Candidato::create([
+            'user_id' => Auth::user()->id,
             'bi' => $dados['bi'],
             'genero_id' => $dados['genero'],
             'telefone' => $dados['telefone'],
@@ -136,12 +138,6 @@ class FinalizarInscricao extends Page implements HasForms
 
         if ($candidato) {
             // dispara uma notificação
-
-            Notification::make()
-                ->title('Inscrição concluída com sucesso')
-                ->success()
-                ->send();
-
             return redirect('/candidato/candidato-dashboard');
         }
     }
