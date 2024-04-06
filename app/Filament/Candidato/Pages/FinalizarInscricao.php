@@ -3,6 +3,11 @@
 namespace App\Filament\Candidato\Pages;
 
 use App\Models\Candidato;
+use App\Models\Classe;
+use App\Models\Curso;
+use App\Models\Genero;
+use App\Models\Periodo;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -11,6 +16,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
 class FinalizarInscricao extends Page implements HasForms
@@ -46,9 +52,8 @@ class FinalizarInscricao extends Page implements HasForms
                     ->required(),
                 Select::make('genero')
                     ->required()
-                    ->options([
-                        'Masculino', 'Feminino',
-                    ]),
+                    ->searchable()
+                    ->options(Genero::all()->pluck('desc', 'id')),
                 TextInput::make('telefone')
                     ->required()
                     ->tel(),
@@ -65,35 +70,42 @@ class FinalizarInscricao extends Page implements HasForms
                     ->label('Selecione o curso estudado'),
                 Select::make('curso_pretendido')
                     ->required()
+                    ->searchable()
                     ->label('Selecione o curso pretendido')
-                    ->options([
-                        'Matemática', 'Fisica', 'Quimica',
-                    ]),
+                    ->options(Curso::all()->pluck('name', 'id')),
                 Select::make('classe_feita')
+                    ->searchable()
                     ->required()
                     ->label('Ano/classe feita')
-                    ->options([
-                        '1ª', '2ª', '3ª', '4ª', '5ª', '6ª', '7ª', '8ª', '9ª', '10ª', '11ª', '12ª', '13ª'
-                    ]),
+                    ->options(Classe::all()->pluck('name', 'id')),
                 Select::make('classe_pretendida')
+                    ->searchable()
                     ->required()
-                    ->label('Ano/classe pretendida')
-                    ->options([
-                        '1ª', '2ª', '3ª', '4ª', '5ª', '6ª', '7ª', '8ª', '9ª', '10ª', '11ª', '12ª', '13ª'
-                    ]),
+                    ->label('Ano/classe feita')
+                    ->options(Classe::all()->pluck('name', 'id')),
                 Select::make('periodo')
+                    ->searchable()
                     ->label('Periodo')
                     ->columnSpan(2)
-                    ->options([
-                        'Manhã', 'Tarde', 'Noite',
-                    ]),
+                    ->options(Periodo::all()->pluck('desc', 'id')),
                 ]),
             Section::make('Documentos')
                 ->columns(2)
                 ->schema([
                     FileUpload::make('copia_bi')
+                        ->required()
+                        ->visibility('private')
+                        ->directory('candidaturas/files')
+                        ->preserveFilenames(false)
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->maxSize(2024)
                         ->label('Copia do BI'),
                     FileUpload::make('certificado')
+                        ->required()
+                        ->preserveFilenames(false)
+                        ->directory('candidaturas/files')
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->maxSize(2024)
                         ->label('Certificado de habilitação'),
                 ])
         ])
@@ -105,7 +117,33 @@ class FinalizarInscricao extends Page implements HasForms
     }
 
     public function concluirInscricao() {
-        dd($this->form->getState());
+        $dados = $this->form->getState();
+
+        $candidato = Candidato::create([
+            'bi' => $dados['bi'],
+            'genero_id' => $dados['genero'],
+            'telefone' => $dados['telefone'],
+            'endereco' => $dados['endereco'],
+            'estado_candidatura_id' => 1,
+            'curso_feito' => $dados['curso_feito'],
+            'curso_id' => $dados['curso_pretendido'],
+            'classe_feita_id' => $dados['classe_feita'],
+            'classe_id' => $dados['classe_pretendida'],
+            'periodo_id' => $dados['periodo'],
+            'copia_bi_url' => $dados['copia_bi'],
+            'certificado_url' => $dados['certificado'],
+        ]);
+
+        if ($candidato) {
+            // dispara uma notificação
+
+            Notification::make()
+                ->title('Inscrição concluída com sucesso')
+                ->success()
+                ->send();
+
+            return redirect('/candidato/candidato-dashboard');
+        }
     }
 
     public function cancelar()
