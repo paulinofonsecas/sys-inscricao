@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Periodo;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +24,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             StatusSeeder::class,
             TipoUsuarioSeeder::class,
+            ClasseSeeder::class,
+            CursoSeeder::class,
+            PeriodoSeeder::class,
+            EstadoCandidaturaSeeder::class,
+            GeneroSeeder::class,
         ]);
     }
 }
