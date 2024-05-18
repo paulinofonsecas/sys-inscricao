@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOperadorRequest;
-use App\Http\Requests\UpdateOperadorRequest;
-use App\Models\Operador;
+use App\Http\Requests\StoreTecnicoRequest;
+use App\Http\Requests\UpdateTecnicoRequest;
+use App\Models\Tecnico;
 
-class OperadorController extends Controller
+class TecnicoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class OperadorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOperadorRequest $request)
+    public function store(StoreTecnicoRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class OperadorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Operador $operador)
+    public function show(Tecnico $Tecnico)
     {
         //
     }
@@ -43,7 +43,7 @@ class OperadorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Operador $operador)
+    public function edit(Tecnico $Tecnico)
     {
         //
     }
@@ -51,7 +51,7 @@ class OperadorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOperadorRequest $request, Operador $operador)
+    public function update(UpdateTecnicoRequest $request, Tecnico $Tecnico)
     {
         //
     }
@@ -59,7 +59,7 @@ class OperadorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Operador $operador)
+    public function destroy(Tecnico $Tecnico)
     {
         //
     }
