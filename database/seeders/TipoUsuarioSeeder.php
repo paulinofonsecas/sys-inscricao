@@ -15,6 +15,9 @@ class TipoUsuarioSeeder extends Seeder
             'descricao' => 'Administrador',
         ]);
         \App\Models\TipoUsuario::create([
+            'descricao' => 'Tecnico',
+        ]);
+        \App\Models\TipoUsuario::create([
             'descricao' => 'Candidato',
         ]);
     }

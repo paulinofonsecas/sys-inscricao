@@ -25,12 +25,8 @@ class DatabaseSeeder extends Seeder
             PeriodoSeeder::class,
             EstadoCandidaturaSeeder::class,
             GeneroSeeder::class,
+            AdministradorSeeder::class,
+            TecnicoSeeder::class,
         ]);
-        
-        \App\Models\User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'super@admin.com',
-        ]);
-
     }
 }

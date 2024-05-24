@@ -6,12 +6,16 @@ use App\Filament\Resources\TecnicoResource\Pages;
 use App\Filament\Resources\TecnicoResource\RelationManagers;
 use App\Models\Tecnico;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class TecnicoResource extends Resource
 {
@@ -23,7 +27,34 @@ class TecnicoResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Fieldset::make()
+                ->schema([
+                    TextInput::make('user.name')
+                        ->required(),
+                    TextInput::make('user.email')
+                        ->email()->required(),
+                    TextInput::make('bi')
+                        ->label('Bilhete de Identidade')
+                        ->required(),
+                    DatePicker::make('nascimento')
+                        ->label('Data de Nascimento')
+                        ->required(),
+                    TextInput::make('telefone')
+                        ->label('Telefone')
+                        ->required(),
+                    TextInput::make('endereco')
+                        ->label('Endereço')
+                        ->required(),
+                    Select::make('tipo_usuario_id')
+                        ->label('Tipo de Usuário')
+                        ->relationship('tipoUsuario', 'descricao') // Assuming the relationship name and display column
+                        ->required(),
+                    Select::make('status_id')
+                        ->label('Status')
+                        ->relationship('status', 'descricao') // Assuming the relationship name and display column
+                        ->required(),
+                ]),
+
             ]);
     }
 
@@ -31,7 +62,15 @@ class TecnicoResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('user.name')
+                    ->label('Nome do tecnico'),
+                TextColumn::make('telefone')
+                    ->label('Número de telefone'),
+                TextColumn::make('endereco')
+                    ->label('Endereço'),
+                TextColumn::make('status.descricao')
+                    ->label('Estado da conta'),
+
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -66,11 +105,4 @@ class TecnicoResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
-    }
 }
