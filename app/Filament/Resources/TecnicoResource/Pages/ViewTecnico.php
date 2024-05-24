@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\TecnicoResource\Pages;
 
 use App\Filament\Resources\TecnicoResource;
+use App\Models\Tecnico;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 

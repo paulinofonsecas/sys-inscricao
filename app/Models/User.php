@@ -55,7 +55,11 @@ class User extends Authenticatable
             return true;
         }
 
-        if ($role === 'candidato' && auth()->user()->tipo_usuario_id == 2) {
+        if ($role === 'tecnico' && auth()->user()->tipo_usuario_id == 2) {
+            return true;
+        }
+
+        if ($role === 'candidato' && auth()->user()->tipo_usuario_id == 3) {
             return true;
         }
 

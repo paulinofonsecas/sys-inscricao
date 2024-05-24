@@ -20,6 +20,6 @@ class Tecnico extends Model
     }
 
     public function status() {
-        return $this->belongsTo(Status::class, 'statuses');
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

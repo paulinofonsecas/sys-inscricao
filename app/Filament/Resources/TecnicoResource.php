@@ -11,6 +11,9 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Fieldset as ComponentsFieldset;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -56,6 +59,31 @@ class TecnicoResource extends Resource
                 ]),
 
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                \Filament\Infolists\Components\Fieldset::make('Informações do tecnico')
+                ->schema([
+                    TextEntry::make('user.name')
+                        ->label('Nome do tecnico'),
+                    TextEntry::make('user.email')
+                        ->label('Email do tecnico'),
+                    TextEntry::make('bi')
+                        ->label('Bilhete de identidade'),
+                    TextEntry::make('nascimento')
+                        ->label('Data de nascimento'),
+                    TextEntry::make('telefone')
+                        ->label('Telefone'),
+                    TextEntry::make('endereco')
+                        ->label('Endereço'),
+                    TextEntry::make('status.descricao')
+                        ->label('Estado da conta'),
+                ])
+            ]);
+
     }
 
     public static function table(Table $table): Table
