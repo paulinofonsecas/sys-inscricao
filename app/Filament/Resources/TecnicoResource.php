@@ -48,10 +48,6 @@ class TecnicoResource extends Resource
                     TextInput::make('endereco')
                         ->label('Endereço')
                         ->required(),
-                    Select::make('tipo_usuario_id')
-                        ->label('Tipo de Usuário')
-                        ->relationship('tipoUsuario', 'descricao') // Assuming the relationship name and display column
-                        ->required(),
                     Select::make('status_id')
                         ->label('Status')
                         ->relationship('status', 'descricao') // Assuming the relationship name and display column

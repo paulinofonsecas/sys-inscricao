@@ -2,6 +2,17 @@
 
 return [
 
+    'locale' => 'pt-BR',
+
+    'translation' => [
+        // 'loader' => 'Filament\Resources\Translation\Loader',
+        'useLaravelLoader' => true, // Opcional, mas recomendado
+        'paths' => [
+            resource_path('filament/lang'), // Caminho para os arquivos de tradução do Filament
+            // resource_path('lang'), // Caminho para seus próprios arquivos de tradução
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Broadcasting

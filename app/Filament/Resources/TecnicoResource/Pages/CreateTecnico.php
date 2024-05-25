@@ -27,7 +27,7 @@ class CreateTecnico extends CreateRecord
             'nascimento' => $data['nascimento'],
             'telefone' => $data['telefone'],
             'endereco' => $data['endereco'],
-            'tipo_usuario_id' => $data['tipo_usuario_id'],
+            'tipo_usuario_id' => 1,
             'status_id' => $data['status_id'],
             'user_id' => $user->id,
         ];

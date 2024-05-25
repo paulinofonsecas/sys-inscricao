@@ -72,12 +72,12 @@ class CustomLoginPage extends Login
         $user = User::find(auth()->user()->id);
         $role = '';
 
-        if (str_contains(Filament::getUrl(), 'candidato')) {
-            $role = 'candidato';
-        } elseif (str_contains(Filament::getUrl(), 'admin')) {
+        if (str_contains(Filament::getUrl(), 'admin')) {
             $role = 'admin';
         } elseif (str_contains(Filament::getUrl(), 'tecnico')) {
             $role = 'tecnico';
+        } elseif (str_contains(Filament::getUrl(), 'candidato')) {
+            $role = 'candidato';
         }
 
         return $user->canUserAccessPanel($role);
