@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Scholar - Online School HTML5 Template</title>
+    <title>IMNE MARISTA</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -63,6 +63,8 @@ https://templatemo.com/tm-586-scholar
                       <li class="scroll-to-section"><a href="#services">Serviços</a></li>
                       <li class="scroll-to-section"><a href="#courses">Cursos</a></li>
                       <li class="scroll-to-section"><a href="#contact">Contacto</a></li>
+                      <li class="scroll-to-section"><a href="#contact">Entrar</a></li>
+                      <li class="scroll-to-section "><a href="#contact">Cadastrar-se</a></li>
                   </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -82,8 +84,8 @@ https://templatemo.com/tm-586-scholar
           <div class="owl-carousel owl-banner">
             <div class="item item-1">
               <div class="header-text">
-                <span class="category">Our Courses</span>
-                <h2>With Scholar Teachers, Everything Is Easier</h2>
+                <span class="category">Nossos cursos</span>
+                <h2>Oferecemos uma vasta gama de cursos de FP</h2>
                 <p>Scholar is free CSS template designed by TemplateMo for online educational related websites. This layout is based on the famous Bootstrap v5.3.0 framework.</p>
                 <div class="buttons">
                   <div class="main-button">
@@ -137,13 +139,13 @@ https://templatemo.com/tm-586-scholar
         <div class="col-lg-4 col-md-6">
           <div class="service-item">
             <div class="icon">
-              <img src={{ asset("assets/images/service-01.png") }} alt="online degrees">
+              <img src={{ asset("assets/images/service-01.png") }} alt="graus online">
             </div>
             <div class="main-content">
-              <h4>Online Degrees</h4>
-              <p>Whenever you need free templates in HTML CSS, you just remember TemplateMo website.</p>
+              <h4>Graus Online</h4>
+              <p>Sempre que você precisar de templates gratuitos em HTML CSS, lembre-se do site TemplateMo.</p>
               <div class="main-button">
-                <a href="#">Read More</a>
+                <a href="#">Leia Mais</a>
               </div>
             </div>
           </div>
@@ -151,13 +153,13 @@ https://templatemo.com/tm-586-scholar
         <div class="col-lg-4 col-md-6">
           <div class="service-item">
             <div class="icon">
-              <img src="assets/images/service-02.png" alt="short courses">
+              <img src="assets/images/service-02.png" alt="cursos curtos">
             </div>
             <div class="main-content">
-              <h4>Short Courses</h4>
-              <p>You can browse free templates based on different tags such as digital marketing, etc.</p>
+              <h4>Cursos Curtos</h4>
+              <p>Você pode navegar por templates gratuitos com base em diferentes tags, como marketing digital, etc.</p>
               <div class="main-button">
-                <a href="#">Read More</a>
+                <a href="#">Leia Mais</a>
               </div>
             </div>
           </div>
@@ -165,13 +167,13 @@ https://templatemo.com/tm-586-scholar
         <div class="col-lg-4 col-md-6">
           <div class="service-item">
             <div class="icon">
-              <img src="assets/images/service-03.png" alt="web experts">
+              <img src="assets/images/service-03.png" alt="especialistas web">
             </div>
             <div class="main-content">
-              <h4>Web Experts</h4>
-              <p>You can start learning HTML CSS by modifying free templates from our website too.</p>
+              <h4>Especialistas Web</h4>
+              <p>Você pode começar a aprender HTML CSS modificando templates gratuitos do nosso site também.</p>
               <div class="main-button">
-                <a href="#">Read More</a>
+                <a href="#">Leia Mais</a>
               </div>
             </div>
           </div>
@@ -179,6 +181,7 @@ https://templatemo.com/tm-586-scholar
       </div>
     </div>
   </div>
+
 
   <div class="section about-us">
     <div class="container">
