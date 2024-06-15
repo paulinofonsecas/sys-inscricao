@@ -34,7 +34,7 @@ class CandidatoPanelProvider extends PanelProvider
             ->passwordReset()
             ->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
             ])
             ->navigation(false)
             ->discoverResources(in: app_path('Filament/Candidato/Resources'), for: 'App\\Filament\\Candidato\\Resources')
