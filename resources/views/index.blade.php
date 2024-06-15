@@ -63,8 +63,8 @@ https://templatemo.com/tm-586-scholar
                       <li class="scroll-to-section"><a href="#services">Serviços</a></li>
                       <li class="scroll-to-section"><a href="#courses">Cursos</a></li>
                       <li class="scroll-to-section"><a href="#contact">Contacto</a></li>
-                      <li class="scroll-to-section"><a href="#contact">Entrar</a></li>
-                      <li class="scroll-to-section "><a href="#contact">Cadastrar-se</a></li>
+                      <li class="scroll-to-section"><a href="/candidato/login">Entrar</a></li>
+                      <li class="scroll-to-section "><a href="/candidato/register">Cadastrar-se</a></li>
                   </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
