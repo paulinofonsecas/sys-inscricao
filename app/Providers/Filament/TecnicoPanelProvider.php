@@ -28,7 +28,7 @@ class TecnicoPanelProvider extends PanelProvider
             ->path('tecnico')
             ->login(CustomLoginPage::class)
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Tecnico/Resources'), for: 'App\\Filament\\Tecnico\\Resources')
             ->discoverPages(in: app_path('Filament/Tecnico/Pages'), for: 'App\\Filament\\Tecnico\\Pages')

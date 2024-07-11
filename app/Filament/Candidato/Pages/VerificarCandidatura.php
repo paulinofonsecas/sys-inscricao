@@ -61,7 +61,7 @@ class VerificarCandidatura extends Page implements HasInfolists
                         ->columns(2)
                         ->schema([
                             TextEntry::make('estadoDaCandidatura.estado')
-                                ->label('Nome completo')
+                                ->label('Estado da candidatura')
                                 ->badge()
                                 ->color(fn (string $state): string => match ($state) {
                                     'Pendente' => 'warning',
