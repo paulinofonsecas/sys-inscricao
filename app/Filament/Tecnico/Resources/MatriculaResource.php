@@ -3,15 +3,15 @@
 namespace App\Filament\Tecnico\Resources;
 
 use App\Filament\Tecnico\Resources\MatriculaResource\Pages;
-use App\Filament\Tecnico\Resources\MatriculaResource\RelationManagers;
+use App\Models\Curso;
 use App\Models\Matricula;
+use App\Models\Periodo;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MatriculaResource extends Resource
 {
@@ -23,7 +23,25 @@ class MatriculaResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('aluno_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('turma_id')
+                    ->required()
+                    ->numeric(),
+                Select::make('curso_id')
+                    ->label('Curso')
+                    ->required()
+                    ->searchable()
+                    ->options(Curso::all()->pluck('name', 'id')),
+                Select::make('periodo_id')
+                    ->label('Periodo')
+                    ->required()
+                    ->searchable()
+                    ->options(Periodo::all()->pluck('desc', 'id')),
+                Forms\Components\TextInput::make('status')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -31,7 +49,31 @@ class MatriculaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('aluno_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('turma_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('curso_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('periodo_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

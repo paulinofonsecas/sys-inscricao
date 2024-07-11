@@ -18,7 +18,7 @@ class CandidatoDashboard extends Page
     {
         $data = [];
         $candidato = Candidato::where('user_id', '=', Auth::user()->id)->first();
-        
+
         if ($candidato) {
             if ($this->candidatoInapto()) {
                 redirect(CandidatoInadequado::getUrl());
