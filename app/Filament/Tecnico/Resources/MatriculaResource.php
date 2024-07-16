@@ -7,6 +7,7 @@ use App\Models\Candidato;
 use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Periodo;
+use App\Models\Status;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -41,9 +42,12 @@ class MatriculaResource extends Resource
                     ->required()
                     ->searchable()
                     ->options(Periodo::all()->pluck('desc', 'id')),
-                TextInput::make('status')
+                Select::make('status_id')
+                    ->label('Estado')
                     ->required()
-                    ->maxLength(255),
+                    ->searchable()
+                    ->default(1)
+                    ->options(Status::all()->pluck('descricao', 'id')),
             ]);
     }
 
