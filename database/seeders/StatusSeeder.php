@@ -12,11 +12,20 @@ class StatusSeeder extends Seeder
      */
     public function run(): void
     {
-        Status::create([
-            'descricao' => 'Ativo',
-        ]);
-        Status::create([
-            'descricao' => 'Inativo',
-        ]);
+        $estados = [
+            'Aceite',
+            'Pendente',
+            'Em análise',
+            'Recusado',
+            'Lista de espera',
+            'Inválido',
+            'Em processo de matrícula',
+        ];
+
+        foreach ($estados as $estado) {
+            Status::create([
+                'descricao' => $estado,
+            ]);
+        }
     }
 }
