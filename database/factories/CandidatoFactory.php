@@ -21,6 +21,7 @@ class CandidatoFactory extends Factory
             'bi' => $this->faker->unique()->numerify('##################'),
             'telefone' => $this->faker->phoneNumber(),
             'genero_id' => $this->faker->numberBetween(1, 2),
+            'nascimento' => $this->faker->date(),
             'endereco' => $this->faker->address(),
             'curso_feito' => $this->faker->sentence(),
             'estado_candidatura_id' => $this->faker->numberBetween(1, 3),

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('bi');
             $table->string('telefone');
+            $table->date('nascimento');
             $table->foreignId('genero_id')->constrained('generos');
             $table->string('endereco')->nullable();
             $table->string('curso_feito');
