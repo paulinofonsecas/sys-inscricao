@@ -8,9 +8,12 @@ use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Periodo;
 use App\Models\Status;
+use App\Models\Turma;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,29 +29,52 @@ class MatriculaResource extends Resource
         return $form
             ->schema([
                 Select::make('candidato.user.name')
+                    ->native(false)
+                    ->required()
                     ->label('Candidato')
                     ->options(Candidato::all()->pluck('user.name', 'id'))
                     ->searchable(),
-                TextInput::make('turma_id')
-                    ->required()
-                    ->numeric(),
                 Select::make('curso_id')
+                    ->native(false)
                     ->label('Curso')
                     ->required()
+
+                    ->reactive()
                     ->searchable()
                     ->options(Curso::all()->pluck('name', 'id')),
+                Select::make('turma_id')
+                    ->native(false)
+                    ->required()
+                    ->label('Turma')
+                    ->reactive()
+                    ->options(function (callable $get) {
+                        $curso = $get('curso_id');
+
+                        if ($curso) {
+                            return Turma::where('curso_id', $curso)->get()->pluck('nome', 'id');
+                        }
+                    }),
                 Select::make('periodo_id')
+                    ->native(false)
                     ->label('Periodo')
                     ->required()
                     ->default(1)
                     ->searchable()
                     ->options(Periodo::all()->pluck('desc', 'id')),
                 Select::make('status_id')
+                    ->native(false)
                     ->label('Estado')
                     ->required()
                     ->searchable()
                     ->default(1)
                     ->options(Status::all()->pluck('descricao', 'id')),
+                Textarea::make('observacao')
+                    ->label('Observação')
+                    ->rows(3)
+                    ->required(false)
+                    ->columnSpan(2)
+                    ->placeholder('Observação')
+                    ->maxLength(255),
             ]);
     }
 
@@ -56,25 +82,27 @@ class MatriculaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('aluno_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('candidato.user.name')
+                    ->searchable()
+                    ->label('Aluno')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('turma_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('turma.nome')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('curso_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('turma.curso.name')
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('periodo_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('periodo.desc')
+                    ->badge()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('status.descricao')
+                    ->label('Estado da matricula')
+                    ->badge()
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->dateTime('d-m-Y')
+                    ->label('Matriculado em')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')

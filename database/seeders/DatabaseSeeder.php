@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             AdministradorSeeder::class,
             TecnicoSeeder::class,
             CandidatorSeeder::class,
+            TurmaSeeder::class,
         ]);
     }
 }
