@@ -3,11 +3,12 @@
 namespace App\Filament\Tecnico\Resources;
 
 use App\Filament\Tecnico\Resources\MatriculaResource\Pages;
+use App\Models\Candidato;
 use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Periodo;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,10 +24,11 @@ class MatriculaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('aluno_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('turma_id')
+                Select::make('candidato.user.name')
+                    ->label('Candidato')
+                    ->options(Candidato::all()->pluck('user.name', 'id'))
+                    ->searchable(),
+                TextInput::make('turma_id')
                     ->required()
                     ->numeric(),
                 Select::make('curso_id')
@@ -39,7 +41,7 @@ class MatriculaResource extends Resource
                     ->required()
                     ->searchable()
                     ->options(Periodo::all()->pluck('desc', 'id')),
-                Forms\Components\TextInput::make('status')
+                TextInput::make('status')
                     ->required()
                     ->maxLength(255),
             ]);
