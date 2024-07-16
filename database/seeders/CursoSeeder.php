@@ -19,6 +19,7 @@ class CursoSeeder extends Seeder
             'Educação-Primária',
             'Educação-Física',
         ];
+
         foreach ($cursos as $estado) {
             Curso::create([
                 'name' => $estado,
