@@ -40,6 +40,7 @@ class MatriculaResource extends Resource
                 Select::make('periodo_id')
                     ->label('Periodo')
                     ->required()
+                    ->default(1)
                     ->searchable()
                     ->options(Periodo::all()->pluck('desc', 'id')),
                 Select::make('status_id')
