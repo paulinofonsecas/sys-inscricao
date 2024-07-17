@@ -14,18 +14,17 @@ return new class extends Migration
         Schema::create('candidatos', function (Blueprint $table) {
             $table->id();
             $table->string('bi');
-            $table->string('telefone');
             $table->date('nascimento');
-            $table->foreignId('genero_id')->constrained('generos');
-            $table->string('endereco')->nullable();
-            $table->string('curso_feito');
-            $table->foreignId('estado_candidatura_id')->constrained('estado_candidaturas');
-            $table->foreignId('curso_id')->constrained('cursos');
-            $table->foreignId('classe_feita_id')->constrained('classes');
-            $table->foreignId('classe_id')->constrained('classes');
-            $table->foreignId('periodo_id')->constrained('periodos');
+            $table->string('telefone');
+            $table->foreignId('genero_id')->constrained();
+            $table->foreignId('curso_opcao_1')->references('id')->on('cursos');
+            $table->foreignId('curso_opcao_2')->references('id')->on('cursos');
+
             $table->string('copia_bi_url');
             $table->string('certificado_url');
+            $table->string('foto_url')->nullable();
+            $table->string('estado_candidatura_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->after('id');
             $table->timestamps();
         });
     }

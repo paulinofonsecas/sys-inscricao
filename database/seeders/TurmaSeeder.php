@@ -27,7 +27,6 @@ class TurmaSeeder extends Seeder
 
 
         foreach ($cursos as $curso) {
-            print('Teste');
             foreach ($turmas as $nomeTurma) {
                 $turma = new Turma();
                 $turma->nome = $nomeTurma;

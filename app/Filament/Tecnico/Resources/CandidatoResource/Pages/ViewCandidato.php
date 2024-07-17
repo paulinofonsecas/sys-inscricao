@@ -16,4 +16,11 @@ class ViewCandidato extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+
+    public function mutateFromDataBefoureFill($model) : array
+    {
+        return [
+            'genero_id' => '3'
+        ];
+    }
 }

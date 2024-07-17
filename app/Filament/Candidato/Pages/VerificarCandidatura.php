@@ -54,66 +54,49 @@ class VerificarCandidatura extends Page implements HasInfolists
                             Candidato::where('user_id', '=', Auth::user()->id)->first()->cancelarInscricao();
                             redirect('/candidato/candidato-dashboard');
                         }),
-                    ])->alignment(Alignment::End),
+                ])->alignment(Alignment::End),
                 Tabs::make('Tabs')
-                ->tabs([
-                    Tab::make('Dados da candidatura')
-                        ->columns(2)
-                        ->schema([
-                            TextEntry::make('estadoDaCandidatura.estado')
-                                ->label('Estado da candidatura')
-                                ->badge()
-                                ->color(fn (string $state): string => match ($state) {
-                                    'Pendente' => 'warning',
-                                    'Em análise' => 'info',
-                                    'Aceite' => 'success',
-                                    'Recusado' => 'danger',
-                                    'Lista de espera' => 'info',
-                                    'Desistido' => 'danger',
-                                    'Inválido' => 'danger',
-                                    'Em processo de matrícula' => 'info',
-                                })
-                                ,
-                            TextEntry::make('curso.name')
-                                ->label('Curso escolhido'),
-                            TextEntry::make('classe.name')
-                                ->label('Classe escolhida'),
-                            TextEntry::make('periodo.desc')
-                                ->label('Periodo escolhido')
-                                ->badge()
-                                ->color(fn (string $state): string => match ($state) {
-                                    'Manhã' => 'success',
-                                    'Tarde' => 'warning',
-                                    'Noite' => 'danger',
-                                }),
+                    ->tabs([
+                        Tab::make('Dados da candidatura')
+                            ->columns(4)
+                            ->schema([
+                                TextEntry::make('estadoDaCandidatura.estado')
+                                    ->label('Estado da candidatura')
+                                    ->badge()
+                                    ->color(fn (string $state): string => match ($state) {
+                                        'Pendente' => 'warning',
+                                        'Em análise' => 'info',
+                                        'Aceite' => 'success',
+                                        'Recusado' => 'danger',
+                                        'Lista de espera' => 'info',
+                                        'Desistido' => 'danger',
+                                        'Inválido' => 'danger',
+                                        'Em processo de matrícula' => 'info',
+                                    }),
+                                TextEntry::make('opcaoCurso1.name')
+                                    ->label('Opção de curso 1'),
+                                TextEntry::make('opcaoCurso2.name')
+                                    ->label('Opção de curso 2'),
+                                TextEntry::make('created_at')
+                                    ->label('Candidatura submetida em')
+                                    ->date('d-m-Y H:s'),
 
-                        ]),
-                    Tab::make('Dados Pessoais')
-                        ->columns(2)
-                        ->schema([
-                            TextEntry::make('user.name')
-                                ->label('Nome completo'),
-                            TextEntry::make('bi')
-                                ->label('Bilhéio de Identidade'),
-                            TextEntry::make('genero.desc')
-                                ->label('Genero'),
-                            TextEntry::make('telefone')
-                                ->label('Número de telefone'),
-                            TextEntry::make('endereco')
-                                ->columnSpan(2)
-                                ->label('Local de Residência'),
+                            ]),
+                        Tab::make('Dados Pessoais')
+                            ->columns(2)
+                            ->schema([
+                                TextEntry::make('user.name')
+                                    ->label('Nome completo'),
+                                TextEntry::make('bi')
+                                    ->label('Bilhéio de Identidade'),
+                                TextEntry::make('genero.desc')
+                                    ->label('Genero'),
+                                TextEntry::make('telefone')
+                                    ->label('Número de telefone'),
 
-                        ]),
-                    Tab::make('Informação Acadêmica')
-                        ->columns(2)
-                        ->schema([
-                            TextEntry::make('curso_feito'),
-                            TextEntry::make('classeFeita.name'),
-                            TextEntry::make('ano_inicio'),
-                            TextEntry::make('ano_conclusao'),
+                            ]),
+
                     ]),
-                ]),
             ]);
     }
-
 }

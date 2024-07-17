@@ -8,6 +8,8 @@ use App\Models\Curso;
 use App\Models\Genero;
 use App\Models\Periodo;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -21,7 +23,7 @@ use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 
 class FinalizarInscricao extends Page implements HasForms
-    {
+{
     use InteractsWithForms;
     use InteractsWithFormActions;
 
@@ -44,96 +46,91 @@ class FinalizarInscricao extends Page implements HasForms
     public function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Section::make('Dados Pessoais')
-                ->columns(2)
-                ->schema([
-                TextInput::make('bi')
-                    ->label('BI')
-                    ->required(),
-                Select::make('genero')
-                    ->required()
-                    ->searchable()
-                    ->options(Genero::all()->pluck('desc', 'id')),
-                TextInput::make('telefone')
-                    ->required()
-                    ->tel(),
-                TextInput::make('endereco')
-                    ->required()
-                    ->columnSpan(2),
-                ]),
+            ->schema([
+                Section::make('Dados Pessoais')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('bi')
+                            ->label('BI')
+                            ->required(),
+                        DatePicker::make('nascimento')
+                            ->required()
+                            ->native(false)
+                            ->hint('Data de nascimento')
+                            ->displayFormat('d/m/Y'),
+                        Select::make('genero_id')
+                            ->required()
+                            ->searchable()
+                            ->options(Genero::all()->pluck('desc', 'id')),
+                        TextInput::make('telefone')
+                            ->tel(),
+                    ]),
 
-            Section::make('Informacão Acadêmica')
-                ->columns(2)
-                ->schema([
-                TextInput::make('curso_feito')
-                    ->required()
-                    ->label('Selecione o curso estudado'),
-                Select::make('curso_pretendido')
-                    ->required()
-                    ->searchable()
-                    ->label('Selecione o curso pretendido')
-                    ->options(Curso::all()->pluck('name', 'id')),
-                Select::make('classe_feita')
-                    ->searchable()
-                    ->required()
-                    ->label('Ano/classe feita')
-                    ->options(Classe::all()->pluck('name', 'id')),
-                Select::make('classe_pretendida')
-                    ->searchable()
-                    ->required()
-                    ->label('Ano/classe feita')
-                    ->options(Classe::all()->pluck('name', 'id')),
-                Select::make('periodo')
-                    ->searchable()
-                    ->label('Periodo')
-                    ->columnSpan(2)
-                    ->options(Periodo::all()->pluck('desc', 'id')),
-                ]),
-            Section::make('Documentos')
-                ->columns(2)
-                ->schema([
-                    FileUpload::make('copia_bi')
-                        ->required()
-                        ->visibility('private')
-                        ->directory('candidaturas/files')
-                        ->preserveFilenames(false)
-                        ->acceptedFileTypes(['application/pdf'])
-                        ->maxSize(2024)
-                        ->label('Copia do BI'),
-                    FileUpload::make('certificado')
-                        ->required()
-                        ->preserveFilenames(false)
-                        ->directory('candidaturas/files')
-                        ->acceptedFileTypes(['application/pdf'])
-                        ->maxSize(2024)
-                        ->label('Certificado de habilitação'),
-                ])
-        ])
-        ->statePath('data')
-        ->columns([
-            'sm' => 2,
-            'lg' => 3,
-        ]);
+                Section::make('Espcialidade pretendida')
+                    ->columns(2)
+                    ->schema([
+                        Select::make('curso_opcao_1')
+                            ->required()
+                            ->label('Opção 1')
+                            ->searchable()
+                            ->options(Curso::all()->pluck('name', 'id')),
+                        Select::make('curso_opcao_2')
+                            ->required()
+                            ->label('Opção 2')
+                            ->searchable()
+                            ->options(Curso::all()->pluck('name', 'id')),
+
+                    ]),
+                Section::make('Documentos')
+                    ->columns(2)
+                    ->schema([
+                        FileUpload::make('copia_bi')
+                            ->required()
+                            ->visibility('private')
+                            ->directory('candidaturas/files')
+                            ->preserveFilenames(false)
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('Copia do BI'),
+                        FileUpload::make('certificado')
+                            ->required()
+                            ->preserveFilenames(false)
+                            ->directory('candidaturas/files')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('Certificado de habilitação/Ficha de encaminhamento'),
+                        FileUpload::make('foto_url')
+                            ->required()
+                            ->preserveFilenames(false)
+                            ->directory('candidaturas/files')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('fotografia meio corpo'),
+                    ])
+            ])
+            ->statePath('data')
+            ->columns([
+                'sm' => 2,
+                'lg' => 3,
+            ]);
     }
 
-    public function concluirInscricao() {
+    public function concluirInscricao()
+    {
         $dados = $this->form->getState();
 
         $candidato = Candidato::create([
             'user_id' => Auth::user()->id,
             'bi' => $dados['bi'],
-            'genero_id' => $dados['genero'],
+            'nascimento' => $dados['nascimento'],
+            'genero_id' => $dados['genero_id'],
             'telefone' => $dados['telefone'],
-            'endereco' => $dados['endereco'],
             'estado_candidatura_id' => 1,
-            'curso_feito' => $dados['curso_feito'],
-            'curso_id' => $dados['curso_pretendido'],
-            'classe_feita_id' => $dados['classe_feita'],
-            'classe_id' => $dados['classe_pretendida'],
-            'periodo_id' => $dados['periodo'],
+            'curso_opcao_1' => $dados['curso_opcao_1'],
+            'curso_opcao_2' => $dados['curso_opcao_2'],
             'copia_bi_url' => $dados['copia_bi'],
             'certificado_url' => $dados['certificado'],
+            'foto_url' => $dados['foto_url'],
         ]);
 
         if ($candidato) {
@@ -146,5 +143,4 @@ class FinalizarInscricao extends Page implements HasForms
     {
         return redirect('/candidato/candidato-dashboard');
     }
-
 }

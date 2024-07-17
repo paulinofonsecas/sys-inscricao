@@ -4,10 +4,9 @@ namespace App\Filament\Tecnico\Resources;
 
 use App\Filament\Tecnico\Resources\CandidatoResource\Pages;
 use App\Models\Candidato;
-use App\Models\Classe;
 use App\Models\Curso;
 use App\Models\Genero;
-use App\Models\Periodo;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -26,77 +25,73 @@ class CandidatoResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Section::make('Dados Pessoais')
-                ->columns(2)
-                ->schema([
-                TextInput::make('bi')
-                    ->label('BI')
-                    ->required(),
-                Select::make('genero')
-                    ->required()
-                    ->searchable()
-                    ->options(Genero::all()->pluck('desc', 'id')),
-                TextInput::make('telefone')
-                    ->required()
-                    ->tel(),
-                TextInput::make('endereco')
-                    ->required()
-                    ->columnSpan(2),
-                ]),
+            ->schema([
+                Section::make('Dados Pessoais')
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('bi')
+                            ->label('BI')
+                            ->required(),
+                        DatePicker::make('nascimento')
+                            ->required()
+                            ->native(false)
+                            ->hint('Data de nascimento')
+                            ->displayFormat('d/m/Y'),
+                        Select::make('genero_id')
+                            ->required()
+                            ->searchable()
+                            ->options(Genero::all()->pluck('desc', 'id')),
+                        TextInput::make('telefone')
+                            ->tel(),
+                    ]),
 
-            Section::make('Informacão Acadêmica')
-                ->columns(2)
-                ->schema([
-                TextInput::make('curso_feito')
-                    ->required()
-                    ->label('Selecione o curso estudado'),
-                Select::make('curso_pretendido')
-                    ->required()
-                    ->searchable()
-                    ->label('Selecione o curso pretendido')
-                    ->options(Curso::all()->pluck('name', 'id')),
-                Select::make('classe_feita')
-                    ->searchable()
-                    ->required()
-                    ->label('Ano/classe feita')
-                    ->options(Classe::all()->pluck('name', 'id')),
-                Select::make('classe_pretendida')
-                    ->searchable()
-                    ->required()
-                    ->label('Ano/classe feita')
-                    ->options(Classe::all()->pluck('name', 'id')),
-                Select::make('periodo')
-                    ->searchable()
-                    ->label('Periodo')
-                    ->columnSpan(2)
-                    ->options(Periodo::all()->pluck('desc', 'id')),
-                ]),
-            Section::make('Documentos')
-                ->columns(2)
-                ->schema([
-                    FileUpload::make('copia_bi')
-                        ->required()
-                        ->visibility('private')
-                        ->directory('candidaturas/files')
-                        ->preserveFilenames(false)
-                        ->acceptedFileTypes(['application/pdf'])
-                        ->maxSize(2024)
-                        ->label('Copia do BI'),
-                    FileUpload::make('certificado')
-                        ->required()
-                        ->preserveFilenames(false)
-                        ->directory('candidaturas/files')
-                        ->acceptedFileTypes(['application/pdf'])
-                        ->maxSize(2024)
-                        ->label('Certificado de habilitação'),
-                ])
-        ])
-        ->statePath('data')
-        ->columns([
-            'sm' => 2,
-            'lg' => 3,
-        ]);
+                Section::make('Espcialidade pretendida')
+                    ->columns(2)
+                    ->schema([
+                        Select::make('curso_opcao_1')
+                            ->required()
+                            ->label('Opção 1')
+                            ->searchable()
+                            ->options(Curso::all()->pluck('name', 'id')),
+                        Select::make('curso_opcao_2')
+                            ->required()
+                            ->label('Opção 2')
+                            ->searchable()
+                            ->options(Curso::all()->pluck('name', 'id')),
+
+                    ]),
+                Section::make('Documentos')
+                    ->columns(2)
+                    ->schema([
+                        FileUpload::make('copia_bi')
+                            ->required()
+                            ->visibility('private')
+                            ->directory('candidaturas/files')
+                            ->preserveFilenames(false)
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('Copia do BI'),
+                        FileUpload::make('certificado')
+                            ->required()
+                            ->preserveFilenames(false)
+                            ->directory('candidaturas/files')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('Certificado de habilitação/Ficha de encaminhamento'),
+                        FileUpload::make('foto_url')
+                            ->required()
+                            ->preserveFilenames(false)
+                            ->directory('candidaturas/files')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->maxSize(2024)
+                            ->label('fotografia meio corpo'),
+                    ])
+            ])
+            ->statePath('data')
+            ->columns([
+                'sm' => 2,
+                'lg' => 3,
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -106,23 +101,31 @@ class CandidatoResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nome do candidato')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('bi')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('telefone')
-                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('classe.name')
+                Tables\Columns\TextColumn::make('opcaoCurso1.name')
                     ->label('Classe inscrita')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('curso.name')
+                Tables\Columns\TextColumn::make('opcaoCurso2.name')
                     ->label('Curso inscrito')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('curso_feito')
+                Tables\Columns\TextColumn::make('estadoDaCandidatura.estado')
                     ->label('Curso feito')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Pendente' => 'warning',
+                        'Em análise' => 'info',
+                        'Aceite' => 'success',
+                        'Recusado' => 'danger',
+                        'Lista de espera' => 'info',
+                        'Desistido' => 'danger',
+                        'Inválido' => 'danger',
+                        'Em processo de matrícula' => 'info',
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Candidatura submetida em')
+                    ->date('d-m-Y H:s')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')

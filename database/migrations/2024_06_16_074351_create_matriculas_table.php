@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('matriculas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('candidato_id')->constrained('candidatos');
-            $table->foreignId('turma_id')->constrained('turmas');
-            $table->foreignId('status_id')->constrained('statuses');
-            $table->foreignId('periodo_id')->constrained('periodos');
+            $table->string("nome_pai");
+            $table->string("nome_mae");
+            $table->string("profissao_pai")->nullable();
+            $table->string("profissao_mae")->nullable();
+            $table->string("telefone")->nullable();
+            $table->string("local_trabalho")->nullable();
+            $table->string("profissao")->nullable();
+            $table->string("religiao")->nullable();
+            $table->string("funsao_igreja")->nullable();
+
+            $table->string("escola_ensino_basico")->nullable();
+            $table->string("ano_de_formatura_basico")->nullable();
+            $table->foreignId("curso_id")->constrained();
+            
             $table->text('observacao')->nullable();
             $table->timestamps();
         });
