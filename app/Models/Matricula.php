@@ -29,4 +29,9 @@ class Matricula extends Model
         return $this->belongsTo(Periodo::class);
     }
 
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
+
 }

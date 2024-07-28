@@ -63,18 +63,19 @@ class MatriculaResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('curso_id')
-                    ->numeric()
+                TextColumn::make('candidato.user.name')
+                    ->label('Nome do candidato')
+                    ->searchable()
                     ->sortable(),
+                TextColumn::make('curso.name')
+                    ->label('Curso matriculado')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('telefone')
+                    ->searchable(),
                 TextColumn::make('nome_pai')
                     ->searchable(),
                 TextColumn::make('nome_mae')
-                    ->searchable(),
-                TextColumn::make('profissao_pai')
-                    ->searchable(),
-                TextColumn::make('profissao_mae')
-                    ->searchable(),
-                TextColumn::make('telefone')
                     ->searchable(),
                 TextColumn::make('local_trabalho')
                     ->searchable(),
