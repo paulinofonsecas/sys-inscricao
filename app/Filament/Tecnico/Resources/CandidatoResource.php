@@ -5,6 +5,7 @@ namespace App\Filament\Tecnico\Resources;
 use App\Filament\Tecnico\Resources\CandidatoResource\Pages;
 use App\Models\Candidato;
 use App\Models\Curso;
+use App\Models\EstadoCandidatura;
 use App\Models\Genero;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -29,6 +30,22 @@ class CandidatoResource extends Resource
                 Section::make('Dados Pessoais')
                     ->columns(2)
                     ->schema([
+                        Select::make('estado_candidatura.id')
+                            ->label('Estado da candidatura')
+                            ->searchable()
+                            ->columnSpan(2)
+                            ->options(EstadoCandidatura::all()->pluck('estado', 'id'))
+                            ->default(function (Form $form, Candidato $record) {
+                                $estadoCandidatura = $record->estadoDaCandidatura->id;
+                                return $estadoCandidatura;
+                            })
+                            ->required(),
+                        TextInput::make('user.name')
+                            ->label('Nome')
+                            ->required(),
+                        TextInput::make('user.email')
+                            ->label('E-mail')
+                            ->required(),
                         TextInput::make('bi')
                             ->label('BI')
                             ->required(),
@@ -63,7 +80,7 @@ class CandidatoResource extends Resource
                 Section::make('Documentos')
                     ->columns(2)
                     ->schema([
-                        FileUpload::make('copia_bi')
+                        FileUpload::make('copia_bi_url')
                             ->required()
                             ->visibility('private')
                             ->directory('candidaturas/files')
@@ -71,7 +88,7 @@ class CandidatoResource extends Resource
                             ->acceptedFileTypes(['application/pdf'])
                             ->maxSize(2024)
                             ->label('Copia do BI'),
-                        FileUpload::make('certificado')
+                        FileUpload::make('certificado_url')
                             ->required()
                             ->preserveFilenames(false)
                             ->directory('candidaturas/files')
@@ -100,6 +117,8 @@ class CandidatoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nome do candidato')
+                    ->searchable()
+                    ->sortable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('telefone')
                     ->sortable(),
@@ -110,7 +129,8 @@ class CandidatoResource extends Resource
                     ->label('Curso inscrito')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('estadoDaCandidatura.estado')
-                    ->label('Curso feito')
+                    ->label('Estado da candidatura')
+                    ->searchable()
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Pendente' => 'warning',

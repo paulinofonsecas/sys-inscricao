@@ -10,6 +10,7 @@ class EstadoCandidatura extends Model
     use HasFactory;
 
     public static int $RECUSADO = 4;
+    public static int $ACEITE = 3;
     public static int $DESISTIDO = 6;
     public static int $INVALIDO = 7;
 }

@@ -26,7 +26,8 @@ return new class extends Migration
             $table->string("escola_ensino_basico")->nullable();
             $table->string("ano_de_formatura_basico")->nullable();
             $table->foreignId("curso_id")->constrained();
-            
+            $table->foreignId("candidato_id")->constrained();
+
             $table->text('observacao')->nullable();
             $table->timestamps();
         });
